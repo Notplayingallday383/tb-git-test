@@ -17,8 +17,8 @@ jobs:
       - run: git clone https://github.com/mercuryworkshop/epoxy-tls
       - run: ls -al
       - run: |
-          cd epoxy-tls/epoxy-tls || exit 1  # Exit if the directory doesn't exist
-          ls -al  # List contents to verify we're in the correct directory
+          cd epoxy-tls || exit 1
+          ls -al
           cargo build --release
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
