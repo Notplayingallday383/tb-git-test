@@ -16,6 +16,7 @@ jobs:
             - run: source "$HOME/.cargo/env"
             - run: git clone https://github.com/mercuryworkshop/epoxy-tls
             - run: cd ./epoxy-tls
+            - run: ls
             - run: cargo b -r
 
             - name: Upload Artifact
