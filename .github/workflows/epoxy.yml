@@ -14,12 +14,13 @@ jobs:
       - run: sudo apt update
       - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - run: source "$HOME/.cargo/env"
+      - run: rustup install nightly
+      - run: rustup default nightly
       - run: git clone https://github.com/mercuryworkshop/epoxy-tls
-      - run: ls -al
       - run: |
           cd epoxy-tls || exit 1
           ls -al
-          cargo build --release
+          cargo +nightly build --release
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
