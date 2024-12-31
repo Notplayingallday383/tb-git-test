@@ -1,0 +1,28 @@
+name: CI
+on: [push, pull_request, workflow_dispatch]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Epoxy
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: sudo apt update
+      - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - run: source "$HOME/.cargo/env"
+      - run: git clone https://github.com/mercuryworkshop/epoxy-tls
+      - run: ls -al
+      - run: |
+          cd epoxy-tls/epoxy-tls || exit 1  # Exit if the directory doesn't exist
+          ls -al  # List contents to verify we're in the correct directory
+          cargo build --release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Linux build
+          path: epoxy-tls/epoxy-tls/target/*
+          retention-days: 10
